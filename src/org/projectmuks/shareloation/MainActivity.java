@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.app.Activity;
 import android.content.Intent;
+import android.telephony.gsm.*;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 import android.net.Uri;
 import android.location.*;
 import java.util.*;
@@ -42,13 +44,29 @@ public class MainActivity extends Activity {
     	} 
     	Vector<Double> cord = new Vector<Double>(2);
     	getCord(cord);
-    	
+    	sendSms("test message");
     }
     
     public void getCord(Vector<Double> cord){
     	cord = new Vector<Double>(2);
     	cord.addElement(new Double(2));
     	cord.addElement(new Double(3));
+    }
+    
+    public void sendSms(String msg){
+    	try {
+            @SuppressWarnings("deprecation")
+			SmsManager smsManager = SmsManager.getDefault();
+            String phoneNo="09643363585";
+			smsManager.sendTextMessage(phoneNo, null, msg, null, null);
+            Toast.makeText(getApplicationContext(), "SMS sent.",
+            Toast.LENGTH_LONG).show();
+         } catch (Exception e) {
+            Toast.makeText(getApplicationContext(),
+            "SMS faild, please try again.",
+            Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+         }
     }
     
 }
